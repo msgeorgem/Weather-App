@@ -20,5 +20,5 @@ class ApiRequester:
         print(data)
 
 # Usage
-api_requester = ApiRequester('http://api.openweathermap.org/data/2.5/forecast?id=3081368&appid=cb871da155cb0de83225c7bfa2dcf06f')
+api_requester = ApiRequester('yourapi')
 api_requester.print_temp_from_data()
