@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <script src="{% static 'weather/color-modes.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'weather/style.css' %}">
 </head>
 
 <body>
@@ -16,6 +18,20 @@
                 <h1 class="title">
                     What's the weather like?
                 </h1>
+                <h3 class="title">Cover</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="w/">Bootstrap Page</a>
+                </nav>
+                <h1 class="title">
+                <a href="locations/">See location list</a>
+                </h1>
+                <form action="{% url 'load_json' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Load Cities</button>
+                </form>
+
             </div>
         </div>
     </section>
@@ -62,6 +78,12 @@
                                         <br>
                                         <span class="subtitle">{{city_weather.temperature}}° C</span>
                                         <br> {{city_weather.description}}
+                                        <p>Min Temperature: {{ city_weather.temp_min }}°C</p>
+                                        <p>Max Temperature: {{ city_weather.temp_max }}°C</p>
+                                        <br>
+                                        <p>Sunrise: {{ city_weather.sunrise }}</p>
+                                        <p>Sunset: {{ city_weather.sunset }}</p>
+                                        <br>
                                     </p>
                                 </div>
                             </div>

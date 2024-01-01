@@ -1,0 +1,74 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Locations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+</head>
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">Cover</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
+          </nav>
+        </div>
+      </header>
+      <!-- Search form -->
+      <div class="my-4">
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by name..." value="{{ request.GET.search }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+        <h2>Location List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Population</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in locations %}
+                    <tr>
+                        <td>{{ location.id }}</td>
+                        <td>{{ location.name }}</td>
+                        <td>{{ location.country }}</td>
+                        <td>{{ location.population }}</td>
+                        <td>{{ location.lat }}</td>
+                        <td>{{ location.lon }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination">
+          {% if locations.has_previous %}
+              <a href="?page=1">First</a>
+              <a href="?page={{ locations.previous_page_number }}">Previous</a>
+          {% endif %}
+          <span class="current">
+              Page {{ locations.number }} of {{ locations.paginator.num_pages }}
+          </span>
+          {% if locations.has_next %}
+              <a href="?page={{ locations.next_page_number }}">Next</a>
+              <a href="?page={{ locations.paginator.num_pages }}">Last</a>
+          {% endif %}
+      </div>
+    </div>
+</body>
+</html>
