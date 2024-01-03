@@ -8,6 +8,11 @@ from utilities.loading_json import DataLoader
 from django.http import HttpResponse
 from dotenv import load_dotenv
 import os
+from django.contrib.gis.geoip2 import GeoIP2
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
 # Create your views here.
 def home(request):
     load_dotenv()
@@ -76,7 +81,7 @@ def city_search(request):
 
 
 
-def dev(request):
+def development(request):
     load_dotenv()
     SECRET_KEY = str(os.getenv('SECRET_KEY'))
     city_id = '3081368'
@@ -144,10 +149,14 @@ def dev(request):
         'message' : message,
         'message_class' : message_class
         }
-    return render(request,'weather/weather.html', context)
+    return render(request,'weather/development.html', context)
 def delete_city(requests, city_name):
     City.objects.get(name=city_name).delete()
     return redirect('home')
+
+
+
+
 
 
 # def location_list(request):
@@ -226,5 +235,50 @@ def reload(request):
 
 
 
+@csrf_exempt
+def development(request):
+    load_dotenv()
+    
+    city_id = '3081368'
+    
+    err_msg = ''
+    message = 'Your page is up and running smoothly. Enjoy browsing!'
+    message_class = ''
+    
+    storage = {
+        'dev_item_1' : settings.BASE_DIR,
+    }
+   
+    print(message)
+   
+          
+    context = {
+        'storage' : storage, 
+        'message' : message,
+        'message_class' : message_class
+        
+        }
+    if request.method == 'POST':
+        print(request.POST)
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+
+        print(latitude, longitude, 'NICE')
+
+    return render(request,'weather/development.html', context)
+
+
+# @csrf_exempt
+# def your_view(request):
+#     if request.method == 'POST':
+#         latitude = request.POST.get('latitude')
+#         longitude = request.POST.get('longitude')
+
+#         print(latitude, longitude, 'NICE')
+
+#         # Save to your model
+#         # YourModel.objects.create(latitude=latitude, longitude=longitude)
+
+#         return JsonResponse({'status': 'success'})
 
 

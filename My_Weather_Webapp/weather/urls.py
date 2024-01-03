@@ -9,5 +9,5 @@ urlpatterns = [
     path('delete/<city_name>/', views.delete_city, name='delete_city'),
     path('load_json/', views.load_json, name='load_json'),
     
-    path('w/', views.dev, name = 'dev'),
+    path('development/', views.development, name = 'development'),
 ]

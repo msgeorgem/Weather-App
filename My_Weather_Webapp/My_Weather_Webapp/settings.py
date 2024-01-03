@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'ETC'
 
 USE_I18N = True
 
@@ -123,4 +123,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-GEO_KEY = os.environ.get('DJ_GEO_KEY')
+#IP database
+
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
+GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
+GEOIP_CITY = 'GeoLite2-City.mmdb'
