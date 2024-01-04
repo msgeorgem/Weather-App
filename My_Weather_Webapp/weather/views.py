@@ -12,12 +12,26 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+import sys
+# from background_task import background
+
+# Define a global variable
+default_city = '756135'
+closest_city = ''
 
 # Create your views here.
 def home(request):
     load_dotenv()
     SECRET_KEY = str(os.getenv('SECRET_KEY'))
-    city_id = '3081368'
+    global default_city
+    global closest_city
+    city_id = ''
+
+    if closest_city == '':
+        city_id = default_city
+    else:
+        city_id = closest_city
+    
     url = "http://api.openweathermap.org/data/2.5/forecast?id={}&appid={}&units=metric".format(city_id,SECRET_KEY)
     err_msg = ''
     message = ''
@@ -200,6 +214,14 @@ def load_json(request):
         return HttpResponse('POST request received')
     else:
         return HttpResponse('GET request received')
+    
+def find_the_closest_city(request):
+    if request.method == 'POST':
+        print('WTF')
+        
+        return HttpResponse('POST request received')
+    else:
+        return HttpResponse('GET request received')
 
 def reload(request):
     load_dotenv()
@@ -244,9 +266,15 @@ def development(request):
     err_msg = ''
     message = 'Your page is up and running smoothly. Enjoy browsing!'
     message_class = ''
+
+    response = f'Python: {sys.version}<br>'
+    response += '<br>'.join(sys.path)
+  
     
     storage = {
         'dev_item_1' : settings.BASE_DIR,
+        'dev_item_2' : f'Python: {sys.version}<br>',
+        'dev_item_3' : '<br>'.join(sys.path)
     }
    
     print(message)
@@ -265,6 +293,9 @@ def development(request):
 
         print(latitude, longitude, 'NICE')
 
+        # response = f'Python: {sys.version}<br>'
+        # response += '<br>'.join(sys.path)
+
     return render(request,'weather/development.html', context)
 
 
@@ -280,5 +311,18 @@ def development(request):
 #         # YourModel.objects.create(latitude=latitude, longitude=longitude)
 
 #         return JsonResponse({'status': 'success'})
+# def button_click_view(request):
+#     long_running_task()
+#     return HttpResponse('Task has been scheduled')
 
+# @background(schedule=1)
+# def long_running_task():
+#     global default_city
 
+#     # Your long running task goes here
+#     print(default_city)
+#     print(default_city)
+#     print(default_city)
+#     print(default_city)
+#     print(default_city)
+#     pass

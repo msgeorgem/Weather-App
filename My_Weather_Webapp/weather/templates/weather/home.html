@@ -181,6 +181,14 @@
     <p class="lead">
       <a href="/" class="btn btn-lg btn-light fw-bold border-white bg-white">Update weather</a>
     </p>
+    <p class="lead">
+      <a href="/find_the_closest_city/" class="btn btn-lg btn-light fw-bold border-white bg-white">Find the closest city</a>
+    </p>
+
+    <form method="post" action="{% url 'button_click_view' %}">
+      {% csrf_token %}
+      <input type="submit" value="Run Background Task">
+    </form>
    
   </main>
 
